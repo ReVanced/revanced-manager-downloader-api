@@ -1,0 +1,89 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    `maven-publish`
+}
+
+android {
+    namespace = "app.revanced.manager.plugin.downloader"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 26
+
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        aidl = true
+    }
+}
+dependencies {
+    implementation(libs.androidx.ktx)
+    implementation(libs.activity.ktx)
+    implementation(libs.runtime.ktx)
+    implementation(libs.appcompat)
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/revanced/revanced-manager-downloader-api")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("revanced-manager-downloader-api-publication") {
+            // from(components["main"])
+
+            version = project.version.toString()
+
+            pom {
+                name = "ReVanced Manager Downloader API"
+                description = "API for writing downloader plugins."
+                url = "https://revanced.app"
+
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url = "https://www.gnu.org/licenses/gpl-3.0.en.html"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "ReVanced"
+                        name = "ReVanced"
+                        email = "contact@revanced.app"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/revanced/revanced-manager-downloader-api.git"
+                    developerConnection = "scm:git:git@github.com:revanced/revanced-manager-downloader-api.git"
+                    url = "https://github.com/revanced/revanced-downloader-api"
+                }
+            }
+        }
+    }
+}
