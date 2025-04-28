@@ -48,16 +48,20 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/revanced/revanced-manager-downloader-api")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getenv("GITHUB_ACTOR") ?: extra["gpr.user"] as String?
+                password = System.getenv("GITHUB_TOKEN") ?: extra["gpr.key"] as String?
             }
         }
     }
 
     publications {
         create<MavenPublication>("revanced-manager-downloader-api-publication") {
-            // from(components["main"])
+            afterEvaluate {
+                from(components["release"])
+            }
 
+            groupId = "app.revanced"
+            artifactId = "revanced-manager-downloader-api"
             version = project.version.toString()
 
             pom {
@@ -81,7 +85,7 @@ publishing {
                 scm {
                     connection = "scm:git:git://github.com/revanced/revanced-manager-downloader-api.git"
                     developerConnection = "scm:git:git@github.com:revanced/revanced-manager-downloader-api.git"
-                    url = "https://github.com/revanced/revanced-downloader-api"
+                    url = "https://github.com/revanced/revanced-manager-downloader-api"
                 }
             }
         }
