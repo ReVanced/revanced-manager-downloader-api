@@ -8,7 +8,7 @@ plugins {
 }
 
 apiValidation {
-    ignoredProjects.addAll(listOf("example"))
+    ignoredProjects += "example-downloader"
     nonPublicMarkers += "app.revanced.manager.plugin.downloader.PluginHostApi"
 }
 

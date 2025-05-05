@@ -1,19 +1,15 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
         mavenCentral()
-        maven("https://jitpack.io")
-        mavenLocal()
+        google()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
         mavenCentral()
-        maven("https://jitpack.io")
-        mavenLocal()
+        google()
         maven {
             // A repository must be specified for some reason. "registry" is a dummy.
             url = uri("https://maven.pkg.github.com/revanced/registry")
@@ -24,10 +20,6 @@ dependencyResolutionManagement {
         }
     }
 }
-buildCache {
-    local {
-        isEnabled = "CI" !in System.getenv()
-    }
-}
-rootProject.name = "manager-downloader-plugin"
-include(":manager-downloader-plugin", ":example")
+
+rootProject.name = "revanced-manager-downloader-api"
+include(":api", ":example-downloader")
